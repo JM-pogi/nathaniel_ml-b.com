@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nathaniel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c3c);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: white;
+      text-align: center;
+      padding: 120px 20px 40px;
+      margin: 0;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px 0;
+      text-align: left;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(0, 255, 255, 0.2);
+    }
+
+    header h1 {
+      margin-left: 5%;
+      color: #00ffff;
+      font-weight: 700;
+      font-size: 2rem;
+      text-shadow: 0 0 8px #00ffff;
+    }
+
+    .profile-pic {
+        margin-top: 5%;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid #00ffff;
+      object-fit: cover;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      animation: fadeIn 2s ease-out;
+    }
+
+    a.button {
+      display: inline-block;
+      background: transparent;
+      color: #00ffff;
+      border: 2px solid #00ffff;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 20px 0;
+      transition: 0.3s ease;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    a.button:hover {
+      background-color: #00ffff;
+      color: #000;
+      box-shadow: 0 0 20px #00ffff;
+    }
+
+    .item-list {
+      display: none;
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 15px;
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+    }
+
+    .item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 15px;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .label {
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      color: #00ffff;
+      font-weight: bold;
+    }
+
+    .bar-container {
+      width: 100%;
+      background-color: #333;
+      height: 14px;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 0 5px #00ffff;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 7px;
+      transition: width 2s ease-out;
+    }
+
+    .footer {
+      margin-top: 80px;
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Profile⭐
+</h1>
+  </header>
+
+  <img src="278924410_739366120779541_6417970356841549101_n.jpg" alt="Naathaniel's profile picture" class="profile-pic" />
+  <h1>Hello, I'm Naathaniel!</h1>
+
+  <a class="button" onclick="startAnimation()">View</a>
+  <a id="backButton" class="button" style="display:none;" onclick="goBack()">Back</a>
+
+  <div id="itemList" class="item-list">
+    <div class="item">
+      <img src="Fanny_29.webp" alt="Fanny">
+      <div class="item-info">
+        <div class="label">
+          <span>Fanny</span>
+          <span class="percent">0%</span>
+        </div>
+        <div class="bar-container">
+          <div class="bar" data-target="90" style="background-color: #00ffff;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="Karina_29.webp" alt="Karina">
+      <div class="item-info">
+        <div class="label">
+          <span>Karina</span>
+          <span class="percent">0%</span>
+        </div>
+        <div class="bar-container">
+          <div class="bar" data-target="75" style="background-color: #00ffcc;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="Gusion_29.webp" alt="Gusion">
+      <div class="item-info">
+        <div class="label">
+          <span>Gusion</span>
+          <span class="percent">0%</span>
+        </div>
+        <div class="bar-container">
+          <div class="bar" data-target="60" style="background-color: #ffcc00;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2025 ML NTDB
+  </div>
+
+  <script>
+    let hasAnimated = false;
+
+    function animateBar(bar, percentSpan, targetPercent) {
+      let current = 0;
+      const interval = setInterval(() => {
+        if (current >= targetPercent) {
+          clearInterval(interval);
+        } else {
+          current++;
+          bar.style.width = current + "%";
+          percentSpan.textContent = current + "%";
+        }
+      }, 20);
+    }
+
+    function startAnimation() {
+      if (hasAnimated) return; // Prevent re-running
+
+      const list = document.getElementById("itemList");
+      const backBtn = document.getElementById("backButton");
+      list.style.display = "block";
+      backBtn.style.display = "inline-block"; // Show the back button
+
+      const bars = document.querySelectorAll(".bar");
+      const percents = document.querySelectorAll(".percent");
+
+      bars.forEach((bar, i) => {
+        const target = parseInt(bar.getAttribute("data-target"));
+        animateBar(bar, percents[i], target);
+      });
+
+      hasAnimated = true; // Disable further clicking on "View"
+    }
+
+    function goBack() {
+      const list = document.getElementById("itemList");
+      const backBtn = document.getElementById("backButton");
+      const bars = document.querySelectorAll(".bar");
+      const percents = document.querySelectorAll(".percent");
+
+      // Reset the progress bars
+      bars.forEach(bar => bar.style.width = "0%");
+      percents.forEach(percent => percent.textContent = "0%");
+
+      list.style.display = "none"; // Hide the item list
+      backBtn.style.display = "none"; // Hide the back button
+
+      hasAnimated = false; // Allow the "View" button to work again
+    }
+  </script>
+</body>
+</html>
