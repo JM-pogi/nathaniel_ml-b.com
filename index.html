@@ -75,6 +75,26 @@
       box-shadow: 0 0 20px #00ffff;
     }
 
+    /* Pulse animation added */
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #00ffff;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px #00ffff;
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #00ffff;
+      }
+    }
+
+    .pulse { /* <-- Added */
+      animation: pulse 1.5s infinite;
+    }
+
     .item-list {
       display: none;
       margin-top: 30px;
@@ -146,14 +166,14 @@
 </head>
 <body>
   <header>
-    <h1>Profile⭐
-</h1>
+    <h1>Profile⭐</h1>
   </header>
 
   <img src="278924410_739366120779541_6417970356841549101_n.jpg" alt="Naathaniel's profile picture" class="profile-pic" />
-  <h1>Hello, I'm Nathaniel!</h1>
+  <h1>Hello, I'm Naathaniel!</h1>
 
-  <a class="button" onclick="startAnimation()">View</a>
+  <!-- Added 'pulse' class -->
+  <a class="button pulse" onclick="startAnimation()">View</a>
   <a id="backButton" class="button" style="display:none;" onclick="goBack()">Back</a>
 
   <div id="itemList" class="item-list">
@@ -216,12 +236,12 @@
     }
 
     function startAnimation() {
-      if (hasAnimated) return; // Prevent re-running
+      if (hasAnimated) return;
 
       const list = document.getElementById("itemList");
       const backBtn = document.getElementById("backButton");
       list.style.display = "block";
-      backBtn.style.display = "inline-block"; // Show the back button
+      backBtn.style.display = "inline-block";
 
       const bars = document.querySelectorAll(".bar");
       const percents = document.querySelectorAll(".percent");
@@ -231,7 +251,7 @@
         animateBar(bar, percents[i], target);
       });
 
-      hasAnimated = true; // Disable further clicking on "View"
+      hasAnimated = true;
     }
 
     function goBack() {
@@ -240,15 +260,60 @@
       const bars = document.querySelectorAll(".bar");
       const percents = document.querySelectorAll(".percent");
 
-      // Reset the progress bars
       bars.forEach(bar => bar.style.width = "0%");
       percents.forEach(percent => percent.textContent = "0%");
 
-      list.style.display = "none"; // Hide the item list
-      backBtn.style.display = "none"; // Hide the back button
+      list.style.display = "none";
+      backBtn.style.display = "none";
 
-      hasAnimated = false; // Allow the "View" button to work again
+      hasAnimated = false;
     }
+    function startAnimation() {
+  if (hasAnimated) return;
+
+  const list = document.getElementById("itemList");
+  const backBtn = document.getElementById("backButton");
+  const viewBtn = document.querySelector(".button.pulse"); // View button
+
+  list.style.display = "block";
+  backBtn.style.display = "inline-block";
+
+  // Move pulse class from View to Back
+  if (viewBtn) viewBtn.classList.remove("pulse");
+  backBtn.classList.add("pulse");
+
+  const bars = document.querySelectorAll(".bar");
+  const percents = document.querySelectorAll(".percent");
+
+  bars.forEach((bar, i) => {
+    const target = parseInt(bar.getAttribute("data-target"));
+    animateBar(bar, percents[i], target);
+  });
+
+  hasAnimated = true;
+}
+
+function goBack() {
+  const list = document.getElementById("itemList");
+  const backBtn = document.getElementById("backButton");
+  const viewBtn = document.querySelector("a.button"); // First button = View
+
+  const bars = document.querySelectorAll(".bar");
+  const percents = document.querySelectorAll(".percent");
+
+  bars.forEach(bar => bar.style.width = "0%");
+  percents.forEach(percent => percent.textContent = "0%");
+
+  list.style.display = "none";
+  backBtn.style.display = "none";
+
+  // Move pulse class back to View
+  backBtn.classList.remove("pulse");
+  viewBtn.classList.add("pulse");
+
+  hasAnimated = false;
+}
+
   </script>
 </body>
 </html>
